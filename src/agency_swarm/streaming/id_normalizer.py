@@ -258,6 +258,15 @@ class StreamIdNormalizer:
 
     @staticmethod
     def _kind_for_raw_event(data_type: Any, *, data: BaseModel) -> str | None:
+        """Determine the kind of output item from raw event data.
+
+        Args:
+            data_type: The event type string (e.g., 'response.output_item.added')
+            data: The event data containing item information
+
+        Returns:
+            The item kind ('tool', 'reasoning', or 'message'), or None if type is invalid
+        """
         if not isinstance(data_type, str):
             return None
         if data_type == "response.function_call_arguments.delta":
