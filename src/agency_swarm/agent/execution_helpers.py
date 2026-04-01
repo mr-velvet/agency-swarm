@@ -419,7 +419,20 @@ def cleanup_execution(
     agency_context: "AgencyContext | None",
     master_context_for_run: MasterContext,
 ) -> None:
-    """Common cleanup logic for execution methods."""
+    """Restore agent state and sync context changes after execution.
+
+    This function performs post-execution cleanup by:
+    1. Syncing user context changes back to the agency when overrides were used
+    2. Restoring the agent's original instructions
+    3. Restoring the agent's original handoffs configuration
+
+    Args:
+        agent: The agent whose state needs to be restored
+        original_instructions: The agent's instructions before execution (string or callable)
+        context_override: Optional context values that were temporarily merged during execution
+        agency_context: Optional agency context containing the agency instance and thread manager
+        master_context_for_run: The master context used during execution, may contain updated user context
+    """
     # Sync back context changes if we used a merged context due to override
     if context_override and agency_context and agency_context.agency_instance:
         base_user_context = getattr(agency_context.agency_instance, "user_context", {})
