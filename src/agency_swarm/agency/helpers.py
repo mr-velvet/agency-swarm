@@ -61,7 +61,29 @@ def run_fastapi(
 
 
 def build_fastapi_agencies(agency: "Agency") -> dict[str, Callable[..., "Agency"]]:
-    """Build a FastAPI factory map for a live agency instance."""
+    """Build a FastAPI factory map for a live agency instance.
+
+    Creates a dictionary mapping agency names to factory functions that can
+    instantiate fresh agency instances with the same configuration. This is used
+    by the FastAPI integration to support per-request agency instantiation with
+    custom persistence callbacks.
+
+    The factory function accepts optional persistence callbacks and recreates the
+    agency with the same entry points, communication flows, shared resources, and
+    user context as the original.
+
+    Args:
+        agency: The agency instance to build a factory map from.
+
+    Returns:
+        A dictionary with the agency name as key and a factory function as value.
+        The factory function signature is:
+        `(*, load_threads_callback=None, save_threads_callback=None, **_) -> Agency`
+
+    Note:
+        Relative paths in `shared_tools_folder` and `shared_files_folder` are
+        resolved relative to the external caller's directory.
+    """
     agency_cls = agency.__class__
     caller_dir = Path(get_external_caller_directory())
     shared_tools_folder = agency.shared_tools_folder
