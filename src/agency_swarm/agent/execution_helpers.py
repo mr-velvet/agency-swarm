@@ -193,7 +193,19 @@ def run_item_to_tresponse_input_item(item: RunItem) -> TResponseInputItem | None
 
 
 def _resolve_latest_shared_instructions(agency_context: "AgencyContext | None") -> str | None:
-    """Return the freshest shared instructions and keep the context in sync."""
+    """Return the freshest shared instructions and keep the context in sync.
+
+    This function retrieves shared instructions from either the agency instance or the
+    agency context, normalizes them (empty strings become None), and ensures both
+    sources are synchronized with the canonical value.
+
+    Args:
+        agency_context: Optional agency context that may contain shared instructions
+            either directly or via its agency_instance reference
+
+    Returns:
+        str | None: The normalized shared instructions text, or None if not present
+    """
     if not agency_context:
         return None
 
