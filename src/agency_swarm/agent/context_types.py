@@ -46,6 +46,19 @@ class AgencyContext:
         save_threads_callback: Callable[..., Any] | None = None,
         shared_instructions: str | None = None,
     ) -> None:
+        """Initialize agency-specific context for an agent.
+
+        Args:
+            agency_instance: The parent Agency instance this context belongs to.
+            thread_manager: Manages conversation threads for this agency.
+            runtime_state: Optional runtime state for this agent. If not provided,
+                a new AgentRuntimeState will be created.
+            subagents: Optional dictionary mapping agent names to Agent instances
+                that this agent can delegate tasks to.
+            load_threads_callback: Optional callback for loading thread data from storage.
+            save_threads_callback: Optional callback for persisting thread data to storage.
+            shared_instructions: Optional agency-level instructions shared across all agents.
+        """
         self.agency_instance = agency_instance
         self.thread_manager = thread_manager
         self.runtime_state = runtime_state or AgentRuntimeState()
