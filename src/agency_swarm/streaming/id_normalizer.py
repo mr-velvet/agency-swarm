@@ -223,6 +223,17 @@ class StreamIdNormalizer:
         return stable_id
 
     def _new_seq_id(self, agent_run_id: str) -> str:
+        """Generate a new sequential ID for the given agent run.
+
+        Creates a unique message ID by incrementing the sequence counter for this agent run.
+        The format is 'msg_{agent_run_id}_{sequence_number}'.
+
+        Args:
+            agent_run_id: The agent run identifier to generate an ID for
+
+        Returns:
+            A new sequential message ID string
+        """
         seq = self._seq_by_agent_run_id.get(agent_run_id, 0)
         self._seq_by_agent_run_id[agent_run_id] = seq + 1
         return f"msg_{agent_run_id}_{seq}"
