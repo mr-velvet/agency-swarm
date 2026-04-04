@@ -181,6 +181,15 @@ async def _wait_for_file_processed(file_id: str, timeout: int = 60, openai_clien
 
 
 def get_extension_from_name(name: str) -> str | None:
+    """Extract file extension from a filename.
+
+    Args:
+        name: The filename to extract extension from.
+
+    Returns:
+        The file extension including the leading dot (e.g., '.txt'),
+        or None if no extension is found.
+    """
     ext = os.path.splitext(name)[1]
     return ext or None
 
