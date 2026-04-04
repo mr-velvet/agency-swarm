@@ -45,6 +45,15 @@ def get_chats_dir(*, override: str | None = None) -> Path:
 
 @functools.lru_cache(maxsize=8)
 def _get_package_root(package_name: str) -> Path | None:
+    """Resolve the root directory for the given package name.
+
+    Args:
+        package_name: The fully qualified package name to resolve.
+
+    Returns:
+        The parent directory path of the package, or None if the package
+        cannot be imported or has no associated file.
+    """
     try:
         module = importlib.import_module(package_name)
     except Exception:
