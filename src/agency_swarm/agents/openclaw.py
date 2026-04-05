@@ -80,6 +80,14 @@ def _resolve_openclaw_base_url(
 
 
 def _normalize_http_host(host: str) -> str:
+    """Normalize an HTTP host string by wrapping IPv6 addresses in brackets.
+
+    Args:
+        host: The host string to normalize (e.g., "127.0.0.1" or "::1").
+
+    Returns:
+        The normalized host string with IPv6 addresses wrapped in brackets.
+    """
     if ":" in host and not host.startswith("["):
         return f"[{host}]"
     return host
